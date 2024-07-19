@@ -1,0 +1,2088 @@
+[
+    {
+        "id": "7218b98b5e011de1",
+        "type": "tab",
+        "label": "Smart Door Lock",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "d7cb4dc601632be0",
+        "type": "ui_switch",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "label": "",
+        "tooltip": "",
+        "group": "d13e43595f2efcce",
+        "order": 6,
+        "width": 3,
+        "height": 1,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 450,
+        "y": 120,
+        "wires": [
+            [
+                "19e04cbd246e873e"
+            ]
+        ]
+    },
+    {
+        "id": "19e04cbd246e873e",
+        "type": "mqtt out",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "topic": "b/smart_door_lock/sub/relay",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "79d34cc06fbe62c5",
+        "x": 660,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "6392603b51f09879",
+        "type": "mqtt in",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "topic": "b/smart_door_lock/pub/relay",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "79d34cc06fbe62c5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 120,
+        "wires": [
+            [
+                "d7cb4dc601632be0"
+            ]
+        ]
+    },
+    {
+        "id": "0c18c38c74e9096b",
+        "type": "mqtt in",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "topic": "b/smart_door_lock/sub/relay",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "79d34cc06fbe62c5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 200,
+        "wires": [
+            [
+                "dc3cfd3f40c13857"
+            ]
+        ]
+    },
+    {
+        "id": "dc3cfd3f40c13857",
+        "type": "ui_led",
+        "z": "7218b98b5e011de1",
+        "order": 3,
+        "group": "d13e43595f2efcce",
+        "width": 3,
+        "height": 1,
+        "label": "Door Status",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#ff0000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#008000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "square",
+        "showGlow": true,
+        "name": "",
+        "x": 450,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "fe65d19562327ccb",
+        "type": "mqtt in",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "topic": "b/smart_door_lock/pub/relay",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "79d34cc06fbe62c5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 280,
+        "wires": [
+            [
+                "dc3cfd3f40c13857"
+            ]
+        ]
+    },
+    {
+        "id": "2f725aa812c016c5",
+        "type": "mysql",
+        "z": "7218b98b5e011de1",
+        "mydb": "a13b3779355eef34",
+        "name": "Smart Door Lock",
+        "x": 710,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "15561993a511671d",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Add history to DB",
+        "func": "msg.topic = \"INSERT INTO history(rfid, nama) \" +\n            \"VALUES ('\" + msg.payload + \"', '\" + msg.payload + \"');\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 460,
+        "wires": [
+            [
+                "2f725aa812c016c5"
+            ]
+        ]
+    },
+    {
+        "id": "48f49287c9e8a6f3",
+        "type": "mqtt in",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "topic": "b/smart_door_lock/pub/akses",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "79d34cc06fbe62c5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 460,
+        "wires": [
+            [
+                "15561993a511671d"
+            ]
+        ]
+    },
+    {
+        "id": "e26098f1a2648780",
+        "type": "mysql",
+        "z": "7218b98b5e011de1",
+        "mydb": "a13b3779355eef34",
+        "name": "Smart Door Lock",
+        "x": 510,
+        "y": 720,
+        "wires": [
+            [
+                "8fe71f6fd9e3eb0f"
+            ]
+        ]
+    },
+    {
+        "id": "d93be110653fdc25",
+        "type": "inject",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "SELECT h.id, h.rfid, u.nama, h.akses FROM history h JOIN user u ON h.nama = u.rfid ORDER BY h.id DESC;",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 720,
+        "wires": [
+            [
+                "e26098f1a2648780"
+            ]
+        ]
+    },
+    {
+        "id": "ae7799585c801860",
+        "type": "comment",
+        "z": "7218b98b5e011de1",
+        "name": "Relay Control",
+        "info": "",
+        "x": 190,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "82fb1cc276156f5e",
+        "type": "comment",
+        "z": "7218b98b5e011de1",
+        "name": "History MySQL Query",
+        "info": "",
+        "x": 220,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "d5146841bc431a16",
+        "type": "ui_table",
+        "z": "7218b98b5e011de1",
+        "group": "ba75d218d34d7ca7",
+        "name": "History Table",
+        "order": 2,
+        "width": 11,
+        "height": 3,
+        "columns": [
+            {
+                "field": "id",
+                "title": "No",
+                "width": "12%",
+                "align": "center",
+                "formatter": "rownum",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "nama",
+                "title": "Username",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "akses",
+                "title": "User Access Time",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 0,
+        "cts": false,
+        "x": 950,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "8fe71f6fd9e3eb0f",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Change time from DB",
+        "func": "msg.payload.forEach(item => {\n  let utcDate = new Date(item.akses);\n  item.akses = utcDate.toLocaleString();\n});\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 720,
+        "wires": [
+            [
+                "d5146841bc431a16"
+            ]
+        ]
+    },
+    {
+        "id": "cb45137d380a4811",
+        "type": "switch",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 450,
+        "y": 640,
+        "wires": [
+            [
+                "2d7f374ae3db471a"
+            ]
+        ]
+    },
+    {
+        "id": "614549d575314223",
+        "type": "mqtt in",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "topic": "b/smart_door_lock/pub/akses",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "79d34cc06fbe62c5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 640,
+        "wires": [
+            [
+                "cb45137d380a4811"
+            ]
+        ]
+    },
+    {
+        "id": "2d7f374ae3db471a",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Get history from DB",
+        "func": "msg.topic = \"SELECT h.id, h.rfid, u.nama, h.akses \" +\n            \"FROM history h \" +\n            \"JOIN user u ON h.nama = u.rfid \" +\n            \"ORDER BY h.id DESC;\"\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 640,
+        "wires": [
+            [
+                "e26098f1a2648780"
+            ]
+        ]
+    },
+    {
+        "id": "2a6b1ef0069bdc34",
+        "type": "comment",
+        "z": "7218b98b5e011de1",
+        "name": "Dashboard Update History Table",
+        "info": "",
+        "x": 250,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "18c11a5e902d9056",
+        "type": "ui_button",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "group": "20879bc8c6f22f18",
+        "order": 6,
+        "width": 4,
+        "height": 1,
+        "passthru": false,
+        "label": "Update Username",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 1070,
+        "y": 1680,
+        "wires": [
+            [
+                "1bba47d5aa7ead7f"
+            ]
+        ]
+    },
+    {
+        "id": "8c22293d7a2ef75c",
+        "type": "ui_text_input",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "label": "New Username",
+        "tooltip": "",
+        "group": "20879bc8c6f22f18",
+        "order": 4,
+        "width": 6,
+        "height": 2,
+        "passthru": false,
+        "mode": "text",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 1060,
+        "y": 1780,
+        "wires": [
+            [
+                "0f305355ede5be33"
+            ]
+        ]
+    },
+    {
+        "id": "0f305355ede5be33",
+        "type": "change",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "nama",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "enabled",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1280,
+        "y": 1780,
+        "wires": [
+            [
+                "18c11a5e902d9056"
+            ]
+        ]
+    },
+    {
+        "id": "1bba47d5aa7ead7f",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Update nama in User",
+        "func": "const nama = flow.get(\"nama\");\nconst rfid = flow.get(\"rfid\");\n\nmsg.topic = \"UPDATE user \" +\n            \"SET nama = '\" + nama + \"' \" +\n            \"WHERE rfid = '\" + rfid + \"';\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1300,
+        "y": 1680,
+        "wires": [
+            [
+                "6990425bd71c56a5"
+            ]
+        ]
+    },
+    {
+        "id": "ba07cd0cec225ef1",
+        "type": "inject",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 190,
+        "y": 1780,
+        "wires": [
+            [
+                "2c68e7691baebcf7"
+            ]
+        ]
+    },
+    {
+        "id": "6990425bd71c56a5",
+        "type": "mysql",
+        "z": "7218b98b5e011de1",
+        "mydb": "a13b3779355eef34",
+        "name": "Smart Door Lock",
+        "x": 1530,
+        "y": 1680,
+        "wires": [
+            [
+                "20376f23b7d5816b",
+                "f4ba93284e534956",
+                "8502d3dfde9e33a2",
+                "e662bb1ef533d5b7"
+            ]
+        ]
+    },
+    {
+        "id": "20376f23b7d5816b",
+        "type": "change",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "enabled",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1740,
+        "y": 1680,
+        "wires": [
+            [
+                "18c11a5e902d9056"
+            ]
+        ]
+    },
+    {
+        "id": "2a5ece98405b581c",
+        "type": "mysql",
+        "z": "7218b98b5e011de1",
+        "mydb": "a13b3779355eef34",
+        "name": "Smart Door Lock",
+        "x": 590,
+        "y": 1880,
+        "wires": [
+            [
+                "a9d66254cce03138"
+            ]
+        ]
+    },
+    {
+        "id": "8445503064a989d4",
+        "type": "comment",
+        "z": "7218b98b5e011de1",
+        "name": "Change User Name",
+        "info": "",
+        "x": 210,
+        "y": 1620,
+        "wires": []
+    },
+    {
+        "id": "05ef5567e2d7d26b",
+        "type": "ui_dropdown",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "label": "Choose Username",
+        "tooltip": "",
+        "place": "----------",
+        "group": "20879bc8c6f22f18",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "",
+                "value": "",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 1070,
+        "y": 1880,
+        "wires": [
+            [
+                "078b235b64e7494b"
+            ]
+        ]
+    },
+    {
+        "id": "cd54457c44e77aeb",
+        "type": "switch",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            },
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 550,
+        "y": 1780,
+        "wires": [
+            [
+                "60e6eddcb11c50a9"
+            ],
+            [
+                "e2e377c5c7195b89"
+            ]
+        ]
+    },
+    {
+        "id": "e2e377c5c7195b89",
+        "type": "change",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "enabled",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "rfid",
+                "pt": "flow",
+                "to": "",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "nama",
+                "pt": "flow",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 720,
+        "y": 1800,
+        "wires": [
+            [
+                "0bee608719b38b55",
+                "05ef5567e2d7d26b",
+                "8c22293d7a2ef75c"
+            ]
+        ]
+    },
+    {
+        "id": "60e6eddcb11c50a9",
+        "type": "change",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "enabled",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 720,
+        "y": 1760,
+        "wires": [
+            [
+                "8c22293d7a2ef75c",
+                "18c11a5e902d9056",
+                "05ef5567e2d7d26b"
+            ]
+        ]
+    },
+    {
+        "id": "2c68e7691baebcf7",
+        "type": "ui_switch",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "label": "Change Username",
+        "tooltip": "",
+        "group": "20879bc8c6f22f18",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 370,
+        "y": 1780,
+        "wires": [
+            [
+                "cd54457c44e77aeb"
+            ]
+        ]
+    },
+    {
+        "id": "f4ba93284e534956",
+        "type": "change",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "enabled",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1740,
+        "y": 1780,
+        "wires": [
+            [
+                "8c22293d7a2ef75c"
+            ]
+        ]
+    },
+    {
+        "id": "8502d3dfde9e33a2",
+        "type": "change",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "false",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 1680,
+        "wires": [
+            [
+                "2c68e7691baebcf7"
+            ]
+        ]
+    },
+    {
+        "id": "a9d66254cce03138",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Parse to Dropdown",
+        "func": "let transformed_data = msg.payload.map(item => ({ [item.nama]: item.rfid }));\n\nmsg.options=transformed_data;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 1880,
+        "wires": [
+            [
+                "05ef5567e2d7d26b"
+            ]
+        ]
+    },
+    {
+        "id": "078b235b64e7494b",
+        "type": "change",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "rfid",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1270,
+        "y": 1880,
+        "wires": [
+            [
+                "18c11a5e902d9056"
+            ]
+        ]
+    },
+    {
+        "id": "0bee608719b38b55",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Get user from DB",
+        "func": "msg.topic = \"SELECT nama, rfid FROM user \" +\n            \"ORDER BY sign_in DESC;\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 1880,
+        "wires": [
+            [
+                "2a5ece98405b581c"
+            ]
+        ]
+    },
+    {
+        "id": "64dc64520d61c2e0",
+        "type": "mysql",
+        "z": "7218b98b5e011de1",
+        "mydb": "a13b3779355eef34",
+        "name": "Smart Door Lock",
+        "x": 530,
+        "y": 2200,
+        "wires": [
+            [
+                "ee18c546ba5f528b"
+            ]
+        ]
+    },
+    {
+        "id": "84a857b7487bae83",
+        "type": "inject",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "SELECT * FROM user ORDER BY sign_in DESC;",
+        "payload": "",
+        "payloadType": "date",
+        "x": 210,
+        "y": 2200,
+        "wires": [
+            [
+                "64dc64520d61c2e0"
+            ]
+        ]
+    },
+    {
+        "id": "ee18c546ba5f528b",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Change time from DB",
+        "func": "msg.payload.forEach(item => {\n  let utcDate = new Date(item.sign_in);\n  item.sign_in = utcDate.toLocaleString();\n});\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 2200,
+        "wires": [
+            [
+                "ec9dac4216f5e69a"
+            ]
+        ]
+    },
+    {
+        "id": "78d1a4034207201b",
+        "type": "switch",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 470,
+        "y": 2080,
+        "wires": [
+            [
+                "e662bb1ef533d5b7"
+            ]
+        ]
+    },
+    {
+        "id": "e389494c587234db",
+        "type": "mqtt in",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "topic": "b/smart_door_lock/pub/addUser",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "79d34cc06fbe62c5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 2040,
+        "wires": [
+            [
+                "78d1a4034207201b"
+            ]
+        ]
+    },
+    {
+        "id": "e662bb1ef533d5b7",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Get user from DB",
+        "func": "msg.topic = \"SELECT nama, rfid FROM user \" +\n            \"ORDER BY sign_in DESC;\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 2080,
+        "wires": [
+            [
+                "64dc64520d61c2e0"
+            ]
+        ]
+    },
+    {
+        "id": "764445a89a291d75",
+        "type": "comment",
+        "z": "7218b98b5e011de1",
+        "name": "Dashboard Update User Table",
+        "info": "",
+        "x": 240,
+        "y": 1980,
+        "wires": []
+    },
+    {
+        "id": "583f0359c429d164",
+        "type": "mqtt in",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "topic": "b/smart_door_lock/pub/delUser",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "79d34cc06fbe62c5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 2120,
+        "wires": [
+            [
+                "78d1a4034207201b"
+            ]
+        ]
+    },
+    {
+        "id": "ec9dac4216f5e69a",
+        "type": "ui_table",
+        "z": "7218b98b5e011de1",
+        "group": "60db573d6e6dde86",
+        "name": "User Table",
+        "order": 2,
+        "width": 10,
+        "height": 5,
+        "columns": [
+            {
+                "field": "",
+                "title": "No",
+                "width": "12%",
+                "align": "center",
+                "formatter": "rownum",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "nama",
+                "title": "Username",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "sign_in",
+                "title": "Registration Time",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 0,
+        "cts": false,
+        "x": 970,
+        "y": 2200,
+        "wires": []
+    },
+    {
+        "id": "416bb4d1bde8ae77",
+        "type": "mysql",
+        "z": "7218b98b5e011de1",
+        "mydb": "a13b3779355eef34",
+        "name": "Smart Door Lock",
+        "x": 750,
+        "y": 1420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "63393499d9dc3c03",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Add user to DB",
+        "func": "let uid = Math.floor((Math.random() * 1000) + 1);\n\nmsg.topic = \"INSERT INTO user(rfid, nama) \" +\n            \"VALUES ('\" + msg.payload + \n            \"', 'Unknown\"  + uid.toString() + \"');\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 1420,
+        "wires": [
+            [
+                "416bb4d1bde8ae77"
+            ]
+        ]
+    },
+    {
+        "id": "de7cd27c33b7d07e",
+        "type": "mqtt in",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "topic": "b/smart_door_lock/pub/addUser",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "79d34cc06fbe62c5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 1420,
+        "wires": [
+            [
+                "63393499d9dc3c03"
+            ]
+        ]
+    },
+    {
+        "id": "ad0cdb0ece5f0614",
+        "type": "mysql",
+        "z": "7218b98b5e011de1",
+        "mydb": "a13b3779355eef34",
+        "name": "Smart Door Lock",
+        "x": 750,
+        "y": 1500,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "68df084fcbd0afd3",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Delete user from DB",
+        "func": "msg.topic = \"DELETE FROM user \" +\n            \"WHERE rfid = '\" + msg.payload + \"';\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 1500,
+        "wires": [
+            [
+                "ad0cdb0ece5f0614"
+            ]
+        ]
+    },
+    {
+        "id": "91b25505c435a190",
+        "type": "mqtt in",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "topic": "b/smart_door_lock/pub/delUser",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "79d34cc06fbe62c5",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 250,
+        "y": 1500,
+        "wires": [
+            [
+                "68df084fcbd0afd3"
+            ]
+        ]
+    },
+    {
+        "id": "ef4aa2b2f604f861",
+        "type": "comment",
+        "z": "7218b98b5e011de1",
+        "name": "User MySQL Query",
+        "info": "",
+        "x": 210,
+        "y": 1360,
+        "wires": []
+    },
+    {
+        "id": "221cf91be8a60bba",
+        "type": "comment",
+        "z": "7218b98b5e011de1",
+        "name": "Chart User Access",
+        "info": "",
+        "x": 210,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "7c7be89fe7f540c5",
+        "type": "ui_chart",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "group": "9d58037cd161dfb1",
+        "order": 1,
+        "width": 15,
+        "height": 5,
+        "label": "User Access Estimation",
+        "chartType": "bar",
+        "legend": "true",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 1610,
+        "y": 1040,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "49bb258bdf0e7f25",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "List access user last 1 hour",
+        "func": "const data = msg.payload;\n\nconst nameCount = {};\n\ndata.forEach(item => {\n  nameCount[item.nama] = (nameCount[item.nama] || 0) + 1;\n});\n\nconst series = Object.keys(nameCount);\nconst dataValues = Object.values(nameCount).map(count => [count]);\n\nmsg.payload = [{\n  \"series\": series,\n  \"data\": dataValues,\n  \"labels\": [\"Last One Hour\"]\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1240,
+        "y": 880,
+        "wires": [
+            [
+                "7c7be89fe7f540c5"
+            ]
+        ]
+    },
+    {
+        "id": "34fce803d6eccb99",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Get history last 1 hour",
+        "func": "msg.topic = \"SELECT h.id, h.rfid, u.nama, h.akses \" +\n            \"FROM history h \" +\n            \"JOIN user u ON h.nama = u.rfid \" +\n            \"WHERE h.akses >= NOW() - INTERVAL 1 HOUR;\"\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 880,
+        "wires": [
+            [
+                "ae2553a8a85938bc"
+            ]
+        ]
+    },
+    {
+        "id": "ae2553a8a85938bc",
+        "type": "mysql",
+        "z": "7218b98b5e011de1",
+        "mydb": "a13b3779355eef34",
+        "name": "Smart Door Lock",
+        "x": 970,
+        "y": 880,
+        "wires": [
+            [
+                "49bb258bdf0e7f25",
+                "0601c52b46961c5a"
+            ]
+        ]
+    },
+    {
+        "id": "282b96dfd1b20a53",
+        "type": "ui_dropdown",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "label": "",
+        "tooltip": "",
+        "place": "Select option",
+        "group": "9d58037cd161dfb1",
+        "order": 6,
+        "width": 3,
+        "height": 1,
+        "passthru": true,
+        "multiple": false,
+        "options": [
+            {
+                "label": "Last One Hour",
+                "value": "one_hour",
+                "type": "str"
+            },
+            {
+                "label": "Last One Day",
+                "value": "one_day",
+                "type": "str"
+            },
+            {
+                "label": "Last One Week",
+                "value": "one_week",
+                "type": "str"
+            },
+            {
+                "label": "Last One Month",
+                "value": "one_month",
+                "type": "str"
+            }
+        ],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 360,
+        "y": 1040,
+        "wires": [
+            [
+                "b4430cb40fd0ff2c"
+            ]
+        ]
+    },
+    {
+        "id": "b4430cb40fd0ff2c",
+        "type": "switch",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "one_hour",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "one_day",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "one_week",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "one_month",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 510,
+        "y": 1040,
+        "wires": [
+            [
+                "34fce803d6eccb99"
+            ],
+            [
+                "4c21794c48f6f9e3"
+            ],
+            [
+                "fb5335716f393e3e"
+            ],
+            [
+                "c5b8606162dbcd2c"
+            ]
+        ]
+    },
+    {
+        "id": "fb5335716f393e3e",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Get history last 1 week",
+        "func": "msg.topic = \"SELECT h.id, h.rfid, u.nama, h.akses \" +\n            \"FROM history h \" +\n            \"JOIN user u ON h.nama = u.rfid \" +\n            \"WHERE h.akses >= NOW() - INTERVAL 7 DAY;\"\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 1120,
+        "wires": [
+            [
+                "548a1a21c391c98a"
+            ]
+        ]
+    },
+    {
+        "id": "4c21794c48f6f9e3",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Get history last 1 day",
+        "func": "msg.topic = \"SELECT h.id, h.rfid, u.nama, h.akses \" +\n            \"FROM history h \" +\n            \"JOIN user u ON h.nama = u.rfid \" +\n            \"WHERE h.akses >= NOW() - INTERVAL 1 DAY;\"\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 960,
+        "wires": [
+            [
+                "72f97f0d29017b15"
+            ]
+        ]
+    },
+    {
+        "id": "c5b8606162dbcd2c",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Get history last 1 month",
+        "func": "msg.topic = \"SELECT h.id, h.rfid, u.nama, h.akses \" +\n            \"FROM history h \" +\n            \"JOIN user u ON h.nama = u.rfid \" +\n            \"WHERE h.akses >= NOW() - INTERVAL 1 MONTH;\"\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 1200,
+        "wires": [
+            [
+                "18910ae1986fb810"
+            ]
+        ]
+    },
+    {
+        "id": "42f45b562151fb56",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "List access user last 1 day",
+        "func": "const data = msg.payload;\n\nconst nameCount = {};\n\ndata.forEach(item => {\n  nameCount[item.nama] = (nameCount[item.nama] || 0) + 1;\n});\n\nconst series = Object.keys(nameCount);\nconst dataValues = Object.values(nameCount).map(count => [count]);\n\nmsg.payload = [{\n  \"series\": series,\n  \"data\": dataValues,\n  \"labels\": [\"Last One Day\"]\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1240,
+        "y": 960,
+        "wires": [
+            [
+                "7c7be89fe7f540c5"
+            ]
+        ]
+    },
+    {
+        "id": "72f97f0d29017b15",
+        "type": "mysql",
+        "z": "7218b98b5e011de1",
+        "mydb": "a13b3779355eef34",
+        "name": "Smart Door Lock",
+        "x": 970,
+        "y": 960,
+        "wires": [
+            [
+                "42f45b562151fb56",
+                "0601c52b46961c5a"
+            ]
+        ]
+    },
+    {
+        "id": "9f3ed9ee05d41cfa",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "List access user last 1 week",
+        "func": "const data = msg.payload;\n\nconst nameCount = {};\n\ndata.forEach(item => {\n  nameCount[item.nama] = (nameCount[item.nama] || 0) + 1;\n});\n\nconst series = Object.keys(nameCount);\nconst dataValues = Object.values(nameCount).map(count => [count]);\n\nmsg.payload = [{\n  \"series\": series,\n  \"data\": dataValues,\n  \"labels\": [\"Last One Week\"]\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1240,
+        "y": 1120,
+        "wires": [
+            [
+                "7c7be89fe7f540c5"
+            ]
+        ]
+    },
+    {
+        "id": "548a1a21c391c98a",
+        "type": "mysql",
+        "z": "7218b98b5e011de1",
+        "mydb": "a13b3779355eef34",
+        "name": "Smart Door Lock",
+        "x": 970,
+        "y": 1120,
+        "wires": [
+            [
+                "9f3ed9ee05d41cfa",
+                "0601c52b46961c5a"
+            ]
+        ]
+    },
+    {
+        "id": "25be9e3c0875bfd3",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "List access user last 1 month",
+        "func": "const data = msg.payload;\n\nconst nameCount = {};\n\ndata.forEach(item => {\n  nameCount[item.nama] = (nameCount[item.nama] || 0) + 1;\n});\n\nconst series = Object.keys(nameCount);\nconst dataValues = Object.values(nameCount).map(count => [count]);\n\nmsg.payload = [{\n  \"series\": series,\n  \"data\": dataValues,\n  \"labels\": [\"Last One Month\"]\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1240,
+        "y": 1200,
+        "wires": [
+            [
+                "7c7be89fe7f540c5"
+            ]
+        ]
+    },
+    {
+        "id": "18910ae1986fb810",
+        "type": "mysql",
+        "z": "7218b98b5e011de1",
+        "mydb": "a13b3779355eef34",
+        "name": "Smart Door Lock",
+        "x": 970,
+        "y": 1200,
+        "wires": [
+            [
+                "25be9e3c0875bfd3",
+                "0601c52b46961c5a"
+            ]
+        ]
+    },
+    {
+        "id": "0601c52b46961c5a",
+        "type": "switch",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "empty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1170,
+        "y": 1040,
+        "wires": [
+            [
+                "9a5a181094eeed5f"
+            ]
+        ]
+    },
+    {
+        "id": "9a5a181094eeed5f",
+        "type": "function",
+        "z": "7218b98b5e011de1",
+        "name": "Empty List Access",
+        "func": "msg.payload = [{\n  \"series\": [\"Empty User Access\"],\n  \"data\": [0],\n  \"labels\": [\"Empty User Access\"]\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1350,
+        "y": 1040,
+        "wires": [
+            [
+                "7c7be89fe7f540c5"
+            ]
+        ]
+    },
+    {
+        "id": "970e0690f40acb21",
+        "type": "inject",
+        "z": "7218b98b5e011de1",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "one_day",
+        "payloadType": "str",
+        "x": 200,
+        "y": 1040,
+        "wires": [
+            [
+                "282b96dfd1b20a53"
+            ]
+        ]
+    },
+    {
+        "id": "7c85028a5a880e7d",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "d13e43595f2efcce",
+        "order": 1,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "ed6301fd657c5f88",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "d13e43595f2efcce",
+        "order": 8,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "799f271518f18956",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "d13e43595f2efcce",
+        "order": 4,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "aa382772021ef29d",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "d13e43595f2efcce",
+        "order": 5,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "a11545ca84adf534",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "d13e43595f2efcce",
+        "order": 9,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "5b8e1c469b2aa316",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "ba75d218d34d7ca7",
+        "order": 1,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "e98fa7fed67a653d",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "ba75d218d34d7ca7",
+        "order": 3,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "c4569ae037305164",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "ba75d218d34d7ca7",
+        "order": 4,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "898c11986b7f50b5",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "ba75d218d34d7ca7",
+        "order": 5,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "6e03a39ca9a7a712",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "ba75d218d34d7ca7",
+        "order": 6,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "678bf1d87e87bac4",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "ba75d218d34d7ca7",
+        "order": 7,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "34ab74e0f1664cbb",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "9d58037cd161dfb1",
+        "order": 2,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "3f9201d231488086",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "9d58037cd161dfb1",
+        "order": 3,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "a0ecaf19c54fc92f",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "9d58037cd161dfb1",
+        "order": 4,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "d5f4a10c5e772a07",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "9d58037cd161dfb1",
+        "order": 5,
+        "width": 3,
+        "height": 1
+    },
+    {
+        "id": "cbc0455cb5567c13",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "d13e43595f2efcce",
+        "order": 2,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "6174c8553cbe07ea",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "20879bc8c6f22f18",
+        "order": 2,
+        "width": 6,
+        "height": 1
+    },
+    {
+        "id": "1823ffae5bc166e6",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "20879bc8c6f22f18",
+        "order": 5,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "e3c50b519ff3c521",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "20879bc8c6f22f18",
+        "order": 7,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "dc898f3688ec1e6a",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "60db573d6e6dde86",
+        "order": 1,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "a8a2f2a1d43b0204",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "60db573d6e6dde86",
+        "order": 3,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "1715f28d869f60b0",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "60db573d6e6dde86",
+        "order": 4,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "ef702be01a68672b",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "60db573d6e6dde86",
+        "order": 5,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "995074bda3d8f7ea",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "60db573d6e6dde86",
+        "order": 6,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "87a907f5c97c6b94",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "60db573d6e6dde86",
+        "order": 7,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "8168c91c4e7aa71c",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "60db573d6e6dde86",
+        "order": 8,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "2f8b99edeb051918",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "60db573d6e6dde86",
+        "order": 9,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "3db6ef41300ebcdc",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "60db573d6e6dde86",
+        "order": 10,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "160a5cb25a412367",
+        "type": "ui_spacer",
+        "z": "7218b98b5e011de1",
+        "name": "spacer",
+        "group": "60db573d6e6dde86",
+        "order": 11,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "d13e43595f2efcce",
+        "type": "ui_group",
+        "name": "Door Status",
+        "tab": "b45f8f7998532d65",
+        "order": 1,
+        "disp": false,
+        "width": "5",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "79d34cc06fbe62c5",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "10.10.0.191",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "a13b3779355eef34",
+        "type": "MySQLdatabase",
+        "name": "history",
+        "host": "localhost",
+        "port": "3306",
+        "db": "smart_door_lock",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "ba75d218d34d7ca7",
+        "type": "ui_group",
+        "name": "Access History",
+        "tab": "b45f8f7998532d65",
+        "order": 2,
+        "disp": true,
+        "width": "13",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "20879bc8c6f22f18",
+        "type": "ui_group",
+        "name": "Change Username",
+        "tab": "04bded0fe6ec0b05",
+        "order": 1,
+        "disp": false,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "60db573d6e6dde86",
+        "type": "ui_group",
+        "name": "List of User",
+        "tab": "04bded0fe6ec0b05",
+        "order": 2,
+        "disp": true,
+        "width": "12",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "9d58037cd161dfb1",
+        "type": "ui_group",
+        "name": "User Access Estimation",
+        "tab": "b45f8f7998532d65",
+        "order": 3,
+        "disp": false,
+        "width": "18",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "b45f8f7998532d65",
+        "type": "ui_tab",
+        "name": "Smart Door Lock",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "04bded0fe6ec0b05",
+        "type": "ui_tab",
+        "name": "User Status",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
